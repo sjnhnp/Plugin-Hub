@@ -132,8 +132,8 @@ interface Plugins {
   FileExists(path: string): Promise<boolean>
   RemoveFile(path: string): Promise<void>
   MoveFile(src: string, dest: string): Promise<void>
-  ReadFile(path: string, options?: { Mode?: 'Binary' | 'Text' }): Promise<string>
-  WriteFile(path: string, content: string, options?: { Mode?: 'Binary' | 'Text' }): Promise<void>
+  ReadFile(path: string, options?: { Mode?: 'Binary' | 'Text', Range?: string }): Promise<string>
+  WriteFile(path: string, content: string, options?: { Mode?: 'Binary' | 'Text', Range?: string }): Promise<void>
   UnzipGZFile(gzPath: string, destPath: string): Promise<void>
   UnzipZIPFile(zipPath: string, destPath: string): Promise<void>
   UnzipTarGZFile(targzPath: string, destPath: string): Promise<void>
@@ -156,8 +156,11 @@ interface Plugins {
     ) => void,
     options?: {
       StaticPath?: string
+      StaticRoute?: string
+      StaticHeaders?: Recordable
       UploadPath?: string
       UploadRoute?: string
+      UploadHeaders?: Recordable
       MaxUploadSize?: number
     }
   ): Promise<{ close: () => Promise<void> }>
@@ -165,20 +168,19 @@ interface Plugins {
   ProcessInfo(pid: number): Promise<string>
   ProcessMemory(pid: number): Promise<number>
   KillProcess(pid: number, timeout?: number): Promise<void>
-  Exec(cmd: string, args?: string[], options?: { convert?: boolean }): Promise<string>
+  Exec(cmd: string, args?: string[], options?: { Convert?: boolean }): Promise<string>
   ExecBackground(
     cmd: string,
     args: string[],
     onOut: (out: string) => void,
     onExit: () => void,
-    options?: { env?: Record<string, string>; convert?: boolean }
+    options?: { Env?: Record<string, string>; Convert?: boolean, StopOutputKeyword?: string, PidFile?: string }
   ): Promise<number>
 
-  Request: any
   HttpGet(
     url: string,
     headers?: Record<string, string>,
-    options?: { Insecure?: boolean; Redirect?: boolean }
+    options?: { Timeout?: number; Insecure?: boolean; Redirect?: boolean }
   ): Promise<{ status: number; headers: Record<string, string>; body: any }>
   HttpPost(
     url: string,
@@ -189,7 +191,7 @@ interface Plugins {
   HttpDelete(
     url: string,
     headers: Record<string, string>,
-    options?: { Insecure?: boolean; Redirect?: boolean }
+    options?: { Timeout?: number; Insecure?: boolean; Redirect?: boolean }
   ): Promise<{ status: number; headers: Record<string, string>; body: any }>
   HttpPatch(url: string, headers: Record<string, string>, data: any): Promise<{ status: number; headers: Record<string, string>; body: any }>
   Requests(options: {
@@ -199,6 +201,7 @@ interface Plugins {
     body?: string
     autoTransformBody?: boolean
     options?: {
+      Timeout?: number;
       Insecure?: boolean
       Redirect?: boolean
     }
@@ -225,11 +228,9 @@ interface Plugins {
   ClipboardSetText(text: string): Promise<void>
   ClipboardGetText(): Promise<string>
 
-  ValidateCron(expression): Promise<boolean>
-
   OpenMMDB(path: string, id: string): Promise<void>
   CloseMMDB(path: string, id: string): Promise<void>
-  QueryMMDB(path: string, ip: string, type?: 'ASN' | 'AnonymousIP' | 'City' | 'ConnectionType' | 'Country' | 'Domain' | 'Enterprise'): Promise<any> // Define return type if known
+  QueryMMDB(path: string, ip: string, type?: 'ASN' | 'AnonymousIP' | 'City' | 'ConnectionType' | 'Country' | 'Domain' | 'Enterprise'): Promise<any>
 
   useAppStore(): {
     showAbout: boolean
@@ -299,9 +300,11 @@ interface Plugins {
   }
   useAppSettingsStore(): {
     app: Recordable
+    themeMode: 'light' | 'dark'
   }
   useProfilesStore(): {
     profiles: Recordable[]
+    currentProfile: Recordable
     getProfileById: (id: string) => Recordable
     addProfile(profile: Recordable): Promise<void>
     editProfile(id: string, profile: Recordable): Promise<void>
@@ -317,6 +320,7 @@ interface Plugins {
     runScheduledTask(id: string): Promise<any>
   }
 
+  generateSecureKey(): string
   setIntervalImmediately(fn: () => void, delay: number): number
   formatRelativeTime(dateString: string): string
   base64Decode(encoded: string): string

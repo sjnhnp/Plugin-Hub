@@ -162,7 +162,7 @@
   {
     "id": "plugin-quick-start-guide",
     "name": "快速配置向导",
-    "version": "v1.1.0",
+    "version": "v1.1.1",
     "description": "快速配置，但是多一点自定义。",
     "tags": ["提升体验", "功能扩展"],
     "type": "Http",
@@ -222,7 +222,7 @@
   {
     "id": "plugin-node-convert",
     "name": "节点转换",
-    "version": "v2.9.2",
+    "version": "v2.13.0",
     "description": "节点格式转换插件，支持v2Ray格式转clash、clash格式转sing-box。",
     "tags": ["节点处理"],
     "type": "Http",
@@ -251,7 +251,7 @@
   {
     "id": "plugin-ipc-logs",
     "name": "日志系统",
-    "version": "v2.0.0",
+    "version": "v2.3.1",
     "description": "GUI日志系统，包含敏感信息，用于debug。",
     "tags": ["功能扩展"],
     "type": "Http",
@@ -279,7 +279,7 @@
   {
     "id": "plugin-subscribe-in-one-click",
     "name": "一键导入订阅助手",
-    "version": "v1.0.1",
+    "version": "v1.0.2",
     "description": "运行此插件，帮助你使用机场的一键导入订阅功能。",
     "tags": ["提升体验", "功能扩展"],
     "type": "Http",
@@ -303,7 +303,7 @@
   },
   {
     "id": "plugin-smart-proxy-switcher",
-    "version": "v4.0.0",
+    "version": "v4.0.2",
     "name": "节点智能切换",
     "description": "实现动态代理选择机制，包含故障转移、断路器、EWMA 延迟跟踪、基于分数调度与滞后控制。",
     "tags": ["提升体验", "功能扩展"],
@@ -415,7 +415,7 @@
   {
     "id": "plugin-rolling-release",
     "name": "滚动发行",
-    "version": "v3.0.1",
+    "version": "v3.1.0",
     "description": "提升GUI升级体验，获取更快、更新、更稳定的版本更新。",
     "tags": ["提升体验", "功能扩展"],
     "type": "Http",
@@ -462,6 +462,44 @@
         "key": "AutoRollingDelay",
         "component": "Input",
         "value": "10",
+        "options": []
+      }
+    ],
+    "status": 0,
+    "disabled": false,
+    "install": false,
+    "installed": false
+  },
+  {
+    "id": "plugin-music-player",
+    "version": "v1.2.0",
+    "name": "简单音乐播放器",
+    "description": "一个简单的本地音乐播放器",
+    "tags": ["功能扩展", "实用工具"],
+    "type": "Http",
+    "url": "https://raw.githubusercontent.com/GUI-for-Cores/Plugin-Hub/main/plugins/Generic/plugin-music-player.js",
+    "path": "data/plugins/plugin-music-player.js",
+    "triggers": ["on::manual"],
+    "hasUI": true,
+    "menus": {
+      "启动服务": "startMusicServer",
+      "停止服务": "stopMusicServer"
+    },
+    "context": {
+      "profiles": {},
+      "subscriptions": {},
+      "rulesets": {},
+      "plugins": {},
+      "scheduledtasks": {}
+    },
+    "configuration": [
+      {
+        "id": "ID_85b0dzns",
+        "title": "音乐文件夹",
+        "description": "",
+        "key": "MusicDir",
+        "component": "Input",
+        "value": "",
         "options": []
       }
     ],
